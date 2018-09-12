@@ -1,0 +1,145 @@
+// Jaeni Lee 110273213
+public class Player {
+	private String color;
+	private Board board;
+	
+	public Player() {
+	}
+	
+	public Player(String color, Board board) {
+		this.color = color;
+		this.board = board;
+	}
+	
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+	
+	public boolean checkHorizontal(char[][] board) {
+		for(int i = 0; i < 6; i++) {
+			int count = 0;
+			for(int j = 1; j < 7; j++) {
+				if(board[i][j] != ' ' && board[i][j] == board[i][j-1]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkVertical(char[][] board) {
+		for(int i = 0; i < 7; i++) {
+			int count = 0;
+			for(int j = 1; j < 6; j++) {
+				if(board[j][i] != ' ' && board[j][i] == board[j-1][i]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkDiagonals(char[][] board) {
+		for(int i = 0; i < 7; i++) {
+			int count = 0;
+			for(int j = 1; j < 6; j++) {
+				if(i + j >= 7) 
+					break;
+				if(board[j][i+j] != ' ' && board[j-1][(i+j)-1] == board[j][i+j]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		
+		for(int i = 0; i < 6; i++) {
+			int count = 0;
+			for(int j = 1; j < 7; j++) {
+				if(j + i >= 6) 
+					break;
+				if(board[i+j][j] != ' ' && board[(i+j)-1][j-1] == board[i+j][j]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		
+		for(int i = 0; i < 7; i++) {
+			int count = 0;
+			for(int j = 1; j < 6; j++) {
+				if(i - j < 0)
+					break;
+				if(board[j][i-j] != ' ' && board[j-1][(i-j)+1] == board[j][i-j]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		
+		for(int i = 0; i < 7; i++) {
+			int count = 0;
+			for(int j = 5; j >= 0; j--) {
+				if(j - i < 0) 
+					break;
+				if(board[j-i][j] != ' ' && board[(j-i)][j+1] == board[j-i][j]) {
+					count++;
+				}
+				else {
+					count = 1;
+				}
+				if(count >= 4) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasWon() {
+		if(checkVertical(board.getBoard()) == true || 
+	       checkHorizontal(board.getBoard()) == true || 
+	       checkDiagonals(board.getBoard()) == true) {
+			return true;
+		}
+		return false;
+	}
+}
