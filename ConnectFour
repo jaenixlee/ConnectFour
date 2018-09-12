@@ -1,0 +1,63 @@
+import java.util.*;
+import java.io.*;
+public class ConnectFour {
+	
+	public static boolean checkDraw(char[][] board) {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				if(board[i][j] == ' ');
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static void main(String[] args) {
+		Board board = new Board();
+		Player p1 = new Player("R", board);
+		Player p2 = new Player("Y", board);
+		Scanner input = new Scanner(System.in);
+		boolean winner;
+		board.fillBoard();
+		board.displayBoard();
+		boolean loop = true;
+		while(loop) {
+			System.out.println("Drop a red disk at a column (0-6)");
+			int column = input.nextInt();
+			if(column > 6) {
+				System.out.println("Column number must be from 0-6!");
+				continue;
+			}
+			board.makeMove(p1, column);
+			board.displayBoard();
+			if(board.validMove(board.getBoard(), column, p1.getColor().charAt(0)) == false) {
+				System.out.println("This column is filled! Choose another one.");
+				continue;
+			}
+			if(p1.hasWon() == true) {
+				System.out.println("The red player has won!");
+				break;
+			}
+			System.out.println("Drop a yellow disk at a column (0-6)");
+			column = input.nextInt();
+			if(column > 6) {
+				System.out.println("Column number must be from 0-6!");
+				continue;
+			}
+			board.makeMove(p2, column);
+			board.displayBoard();
+			if(board.validMove(board.getBoard(), column, p1.getColor().charAt(0)) == false) {
+				System.out.println("This column is filled! Choose another one.");
+				continue;
+			}
+			if(p2.hasWon() == true) {
+				System.out.println("The yellow player has won!");
+				break;
+			}
+			if(checkDraw(board.getBoard()) == true) {
+				System.out.println("It's a draw!");
+				break;			
+			}
+		}
+	}
+}
